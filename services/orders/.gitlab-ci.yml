@@ -1,0 +1,41 @@
+stages:
+  - Static Analysis
+  - Test
+
+flake8:
+  stage: Static Analysis
+  image: python:3-slim
+  before_script:
+    - python -V
+    - python -m pip install flake8
+  script:
+    - flake8 src | tee flake8_report.txt
+  artifacts:
+    when: on_failure
+    paths:
+      - flake8_report.txt
+
+pylint:
+  stage: Static Analysis
+  image: python:3-slim
+  before_script:
+    - python -V
+    - python -m pip install -r requirements.txt
+    - python -m pip install pylint
+  script:
+    - pylint -d C0103,E1101 --fail-under=7 src | tee pylint_report.txt
+  artifacts:
+    when: always
+    paths:
+      - pylint_report.txt
+
+integration-tests:
+  stage: Test
+  image: docker/compose:latest
+  services:
+    - docker:dind
+  before_script:
+    - docker info
+    - docker-compose --version
+  script:
+    - docker-compose -f ci/docker-compose.test.yml up --exit-code-from orders-pytest
