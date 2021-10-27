@@ -47,7 +47,7 @@ class Game(db.Model):
 def health_check():
     return jsonify(
             {
-                "message": "Service is healthy."
+                "message": "Service is healthy. CS302!!"
             }
     ), 200
 

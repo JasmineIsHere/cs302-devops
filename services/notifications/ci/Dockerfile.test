@@ -1,0 +1,9 @@
+FROM python:3-slim
+WORKDIR /usr/src/app
+COPY requirements.txt ./
+COPY ci/requirements.test.txt ./
+COPY ci/wait-for-it.sh .
+COPY tests/test_component.py ./tests/
+RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.test.txt
+CMD ./wait-for-it.sh rabbitmq:5672 -- ./wait-for-it.sh mysql:3306 -- python -m pytest tests/test_component.py

@@ -7,7 +7,7 @@
 
 if ($_ENV['stage'] == 'production') {
 	$url = $_ENV['games_service_url'] . "/games";
-	$api_key = '';
+	$api_key = $_ENV['api_gateway_key'];
 } else {
 	$url = $_ENV['games_service_url_internal'] . "/games";
 	$api_key = '';
@@ -26,10 +26,10 @@ if (is_numeric($game_id))
 	curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 	curl_setopt($curl, CURLOPT_HTTPHEADER, array(
 	    "Content-type: application/json",
-	    "x-api-key: $api_key"
+	    "apikey: $api_key"
 	));
 	curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "DELETE");
-	curl_setopt($curl, CURLOPT_POSTFIELDS, $content);
+	// curl_setopt($curl, CURLOPT_POSTFIELDS, $content);
 
 	// extract the JSON response from 'games'
 	$json_response = curl_exec($curl);

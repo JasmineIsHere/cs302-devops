@@ -31,7 +31,7 @@ pylint:
     paths:
       - pylint_report.txt
 
-integration-tests:
+component-tests:
   stage: Test
   image: docker/compose:latest
   services:
@@ -40,7 +40,7 @@ integration-tests:
     - docker info
     - docker-compose --version
   script:
-    - docker-compose -f ci/docker-compose.test.yml up --exit-code-from orders-pytest
+    - docker-compose -f ci/docker-compose.test.yml up --exit-code-from run-tests
 
 # based on: https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/ci/templates/Docker.gitlab-ci.yml
 release-image:

@@ -40,7 +40,7 @@ integration-tests:
     - docker info
     - docker-compose --version
   script:
-    - docker-compose -f ci/docker-compose.test.yml up --exit-code-from orders-pytest
+    - docker-compose -f ci/docker-compose.test.yml up --exit-code-from games-pytest
 
 # based on: https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/ci/templates/Docker.gitlab-ci.yml
 release-image:
